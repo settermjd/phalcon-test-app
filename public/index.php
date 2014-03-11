@@ -16,6 +16,31 @@ try {
         return new FormatDate();
     });
 
+    // Set the view cache service
+    $di->set('viewCache', function() {
+        // Cache data for one day by default
+        $frontCache = new \Phalcon\Cache\Frontend\Data(array(
+            "lifetime" => 86400
+        ));
+        $cache = new \Phalcon\Cache\Backend\File($frontCache, array(
+            "cacheDir" => "../app/cache/",
+            "prefix" => "view-data-"
+        ));
+        return $cache;
+    });
+
+    // Set the view cache service
+    $di->set('modelsCache', function() {
+        // Cache data for one day by default
+        $frontCache = new \Phalcon\Cache\Frontend\Data(array(
+            "lifetime" => 86400
+        ));
+        $cache = new \Phalcon\Cache\Backend\File($frontCache, array(
+            "cacheDir" => "../app/cache/",
+            "prefix" => "talks-data-"
+        ));
+        return $cache;
+    });
 
 
     //Setup the database service
