@@ -4,11 +4,17 @@ try {
     $loader = new \Phalcon\Loader();
     $loader->registerDirs(array(
         '../app/controllers/',
-        '../app/models/'
+        '../app/models/',
+        '../app/customhelpers' // Add the new helpers folder
     ))->register();
 
     // Create a DI
     $di = new Phalcon\DI\FactoryDefault();
+
+    // Assign our new tag a definition so we can call it
+    $di->set('FormatDate', function() {
+        return new FormatDate();
+    });
 
     // Setup the view component
     $di->set('view', function(){
