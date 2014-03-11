@@ -16,6 +16,18 @@ try {
         return new FormatDate();
     });
 
+
+
+    //Setup the database service
+    $di->set('db', function(){
+        return new \Phalcon\Db\Adapter\Pdo\Mysql(array(
+            "host" => "localhost",
+            "username" => "phalconappuser",
+            "password" => "phalconappuser",
+            "dbname" => "phalconapp"
+        ));
+    });
+
     // Setup the view component
     $di->set('view', function(){
         $view = new \Phalcon\Mvc\View();
