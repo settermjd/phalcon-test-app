@@ -1,0 +1,21 @@
+<?php if (count($talks)) : ?>
+    <p>Currently there are <?php echo count($talks); ?> talk(s) available</p>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Talk</th>
+            <th>Starts</th>
+            <th>Finishes</th>
+        </tr>
+        </thead>
+        <?php foreach ($talks as $talk) : ?>
+            <tr>
+                <td><?php echo $talk->name; ?></td>
+                <td><?php echo FormatDate::simpleFormat($talk->starts); ?></td>
+                <td><?php echo FormatDate::simpleFormat($talk->finishes); ?></td>
+            </tr>
+        <?php endforeach; ?>
+    </table>
+<?php else : ?>
+    <p>Unfortunately there are <strong>no talks</strong> currently available</p>
+<?php endif; ?>
