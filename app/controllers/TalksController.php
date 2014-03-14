@@ -16,7 +16,6 @@ class TalksController extends \Phalcon\Mvc\Controller
             "cache" => array("key" => "upcoming-talks", "lifetime" => 300)
         ));
         $this->view->setVar("talks", $availableTalks);
-        $this->view->setVar("talkCount", count($availableTalks));
     }
 
     public function archiveAction()
@@ -28,7 +27,6 @@ class TalksController extends \Phalcon\Mvc\Controller
             "cache"      => array("key" => "archived-talks", "lifetime" => 300)
         ));
         $this->view->setVar("talks", $availableTalks);
-        $this->view->setVar("talkCount", count($availableTalks));
     }
 
     public function viewTalkAction()
