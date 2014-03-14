@@ -50,6 +50,12 @@ Vagrant.configure("2") do |config|
   config.vm.provision :shell, :path => "puphpet/shell/update-puppet.sh"
   config.vm.provision :shell, :path => "puphpet/shell/librarian-puppet-vagrant.sh"
 
+  ## add Phalcon support
+  config.vm.provision :shell, :path => "puphpet/shell/install_phalcon.sh"
+
+  ## add Phalcon devtools support
+  config.vm.provision :shell, :path => "puphpet/shell/install_phalcon-devtools.sh"
+
   config.vm.provision :puppet do |puppet|
     ssh_username = !data['ssh']['username'].nil? ? data['ssh']['username'] : "vagrant"
     puppet.facter = {
