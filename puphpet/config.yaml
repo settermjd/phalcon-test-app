@@ -104,9 +104,9 @@ php:
         display_errors: On
         error_reporting: '-1'
         session.save_path: /var/lib/php/session
-    timezone: America/Chicago
+    timezone: Europe/Berlin
 xdebug:
-    install: 0
+    install: 1
     settings:
         xdebug.default_enable: '1'
         xdebug.remote_autostart: '0'
@@ -146,7 +146,7 @@ mariadb:
     databases: {  }
     version: '10.0'
 mongodb:
-    install: 0
+    install: 1
     settings:
         auth: 1
         port: '27017'
@@ -156,7 +156,7 @@ redis:
     settings:
         conf_port: '6379'
 beanstalkd:
-    install: 0
+    install: 1
     settings:
         listenaddress: 0.0.0.0
         listenport: '13000'
