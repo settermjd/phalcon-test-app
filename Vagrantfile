@@ -5,6 +5,10 @@ dir = File.dirname(File.expand_path(__FILE__))
 configValues = YAML.load_file("#{dir}/puphpet/config.yaml")
 data = configValues['vagrantfile-local']
 
+if !data['vm']['provider']['virtualbox'].empty?
+  ENV['VAGRANT_DEFAULT_PROVIDER'] = 'virtualbox'
+end
+
 Vagrant.configure("2") do |config|
   config.vm.box = "#{data['vm']['box']}"
   config.vm.box_url = "#{data['vm']['box_url']}"
@@ -48,18 +52,18 @@ Vagrant.configure("2") do |config|
     s.args = "/vagrant/puphpet"
   end
   config.vm.provision :shell, :path => "puphpet/shell/update-puppet.sh"
-  config.vm.provision :shell, :path => "puphpet/shell/librarian-puppet-vagrant.sh"
-
   ## add Phalcon support
   config.vm.provision :shell, :path => "puphpet/shell/install_phalcon.sh"
 
   ## add Phalcon devtools support
   config.vm.provision :shell, :path => "puphpet/shell/install_phalcon-devtools.sh"
+  config.vm.provision :shell, :path => "puphpet/shell/r10k.sh"
 
   config.vm.provision :puppet do |puppet|
     ssh_username = !data['ssh']['username'].nil? ? data['ssh']['username'] : "vagrant"
     puppet.facter = {
-      "ssh_username" => "#{ssh_username}"
+      "ssh_username"     => "#{ssh_username}",
+      "provisioner_type" => ENV['VAGRANT_DEFAULT_PROVIDER'],
     }
     puppet.manifests_path = "#{data['vm']['provision']['puppet']['manifests_path']}"
     puppet.manifest_file = "#{data['vm']['provision']['puppet']['manifest_file']}"
@@ -69,6 +73,20 @@ Vagrant.configure("2") do |config|
     end
   end
 
+  if File.file?("#{dir}/puphpet/files/dot/ssh/id_rsa")
+    config.ssh.private_key_path = [
+      "#{dir}/puphpet/files/dot/ssh/id_rsa",
+      "#{dir}/puphpet/files/dot/ssh/insecure_private_key"
+    ]
+  end
+
+  ssh_username = !data['ssh']['username'].nil? ? data['ssh']['username'] : "vagrant"
+
+  config.vm.provision "shell" do |kg|
+    kg.path = "puphpet/shell/ssh-keygen.sh"
+    kg.args = "#{ssh_username}"
+  end
+
   config.vm.provision :shell, :path => "puphpet/shell/execute-files.sh"
 
   if !data['ssh']['host'].nil?
@@ -76,9 +94,6 @@ Vagrant.configure("2") do |config|
   end
   if !data['ssh']['port'].nil?
     config.ssh.port = "#{data['ssh']['port']}"
-  end
-  if !data['ssh']['private_key_path'].nil?
-    config.ssh.private_key_path = "#{data['ssh']['private_key_path']}"
   end
   if !data['ssh']['username'].nil?
     config.ssh.username = "#{data['ssh']['username']}"
@@ -103,4 +118,5 @@ Vagrant.configure("2") do |config|
   end
 
 end
+
 
