@@ -13,4 +13,12 @@ class IndexController extends \Phalcon\Mvc\Controller
     {
         // home
     }
+
+    /**
+     * Default controller
+     */
+    public function route404Action()
+    {
+        // home
+    }
 }
