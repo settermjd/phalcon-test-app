@@ -32,5 +32,42 @@ class TalksController extends \Phalcon\Mvc\Controller
     public function viewTalkAction()
     {
 
+    public function addAction()
+    {
+        $talk = new Talk();
+        $form = new TalksForm();
+        $this->view->form = $form;
+
+        if ($this->request->isPost() == true) {
+            $form->bind($_POST, $talk);
+            if ($form->isValid()) {
+                $talk->save();
+            }
+        }
+    }
+
+    public function editAction()
+    {
+        $talk = Talk::find(array(
+            "conditions" => "id = ?1",
+            "bind"       => array(1 => $this->dispatcher->getParam("id"))
+        ))->getFirst();
+
+        if (!$talk) {
+            $response = new \Phalcon\Http\Response();
+            return $response->redirect(array(
+                "for" => "talks-add"
+            ));
+        }
+
+        $form = new TalksForm($talk);
+        $this->view->form = $form;
+
+        if ($this->request->isPost() == true) {
+            $form->bind($_POST, $talk);
+            if ($form->isValid()) {
+                $talk->save();
+            }
+        }
     }
 }

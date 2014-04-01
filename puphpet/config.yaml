@@ -7,7 +7,7 @@ vagrantfile-local:
         network:
             private_network: 192.168.56.101
             forwarded_port:
-                mWa7x3dESOYS:
+                I25NRsUODANx:
                     host: '9260'
                     guest: '22'
         provider:
@@ -26,8 +26,7 @@ vagrantfile-local:
                     - '--hiera_config /vagrant/puphpet/puppet/hiera.yaml'
                     - '--parser future'
         synced_folder:
-            7M6B4L8CaC5p:
-                id: vagrant-root
+            WqQZabG3GXWP:
                 source: ./
                 target: /var/www
                 nfs: 'false'
@@ -75,7 +74,7 @@ apache:
         - php
         - rewrite
     vhosts:
-        Mep3nPsIgcsg:
+        KVx1SS3mwbxQ:
             servername: phparch.phalcon.dev
             serveraliases:
                 - www.phparch.phalcon.dev
@@ -86,8 +85,27 @@ apache:
             override:
                 - All
             custom_fragment: ''
+            ssl_cert: ''
+            ssl_key: ''
+            ssl_chain: ''
+            ssl_certs_dir: ''
     mod_pagespeed: 0
     mod_spdy: 0
+nginx:
+    install: 0
+    vhosts:
+        HuyUejsajPQj:
+            server_name: awesome.dev
+            server_aliases:
+                - www.awesome.dev
+            www_root: /var/www/awesome.dev
+            listen_port: '80'
+            index_files:
+                - index.html
+                - index.htm
+                - index.php
+            envvars:
+                - 'APP_ENV dev'
 php:
     install: '1'
     version: '55'
@@ -106,7 +124,7 @@ php:
         session.save_path: /var/lib/php/session
     timezone: Europe/Berlin
 xdebug:
-    install: 1
+    install: '1'
     settings:
         xdebug.default_enable: '1'
         xdebug.remote_autostart: '0'
@@ -124,18 +142,21 @@ mysql:
     phpmyadmin: '1'
     adminer: 0
     databases:
-        ixWIrUs2nIJw:
+        SmtJwe7BpXKm:
             grant:
                 - ALL
             name: phalconapp
             host: localhost
             user: phalconappuser
             password: phalconappuser
-            sql_file: ''
+            sql_file: /var/www/db/setup.sql
 postgresql:
     install: 0
-    root_password: '123'
-    user_group: postgres
+    settings:
+        root_password: '123'
+        user_group: postgres
+        encoding: UTF8
+        version: '9.3'
     databases: {  }
     adminer: 0
 mariadb:
@@ -146,7 +167,7 @@ mariadb:
     databases: {  }
     version: '10.0'
 mongodb:
-    install: 1
+    install: '1'
     settings:
         auth: 1
         port: '27017'
@@ -156,7 +177,7 @@ redis:
     settings:
         conf_port: '6379'
 beanstalkd:
-    install: 1
+    install: '1'
     settings:
         listenaddress: 0.0.0.0
         listenport: '13000'
