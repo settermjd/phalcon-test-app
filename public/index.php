@@ -5,6 +5,7 @@ try {
     $loader->registerDirs(array(
         '../app/controllers/',
         '../app/models/',
+        '../app/forms/',
         '../app/customhelpers' // Add the new helpers folder
     ))->register();
 
@@ -66,6 +67,25 @@ try {
         $url->setBaseUri('/');
         return $url;
     });
+
+    // Create the router
+    $router = new \Phalcon\Mvc\Router();
+    //Add a route to the group
+    $router->add('/talks/edit/{id}', array(
+        "controller" => "talks",
+        "action" => 'edit',
+    ))->setName('talks-edit')->getHttpMethods(array('GET', 'POST'));
+
+    $router->addGet('/talks/add', array(
+        "controller" => "talks",
+        "action" => 'add',
+    ))->setName('talks-add');
+    $router->removeExtraSlashes(true);
+
+    /**
+     * add routing capabilities
+     */
+    $di->set('router', $router);
 
     // Handle the request
     $application = new \Phalcon\Mvc\Application($di);
