@@ -80,6 +80,13 @@ try {
         "controller" => "talks",
         "action" => 'add',
     ))->setName('talks-add');
+
+    //Set 404 paths
+    $router->notFound(array(
+        "controller" => "index",
+        "action" => "route404"
+    ));
+
     $router->removeExtraSlashes(true);
 
     /**
