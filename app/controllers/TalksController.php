@@ -32,6 +32,8 @@ class TalksController extends \Phalcon\Mvc\Controller
     public function viewTalkAction()
     {
 
+    }
+
     public function addAction()
     {
         $talk = new Talk();
