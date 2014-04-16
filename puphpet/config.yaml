@@ -30,6 +30,8 @@ vagrantfile-local:
                 source: ./
                 target: /var/www
                 nfs: 'false'
+                user: www-data
+                group: www-data
         usable_port_range: 2200..2250
     ssh:
         host: null
